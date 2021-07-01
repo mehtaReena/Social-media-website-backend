@@ -21,6 +21,8 @@ router.post("/login", async (req, res) => {
   if (result.status) {
     let payload = {
       email: result.result.email,
+      name: result.result.name,
+
     };
     let refresh = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME,

@@ -7,7 +7,7 @@ const addUser = async ({ name, email, password }) => {
     if (!emailRegex.test(email)) {
         return { status: false, result: { message: 'Invalid Email ID' } }
     }
-    if (!name) return { status: false, result: { message: 'Name is required' } }
+    if (!name) return { status: false, result: { message: ' user-name  is required' } }
     if (!password) return { status: false, result: { message: 'Password is required' } }
 
     let hash = await bcrypt.hash(password, 10)
@@ -24,11 +24,11 @@ const addUser = async ({ name, email, password }) => {
 
 const findUser = async ({ email, password }) => {
     let user = await User.findOne({ email })
-    if (!user) return { status: false, result: { message: 'User not found' } }
+    if (!user) return { status: false, result: { message: 'Invalid user' } }
     if (await bcrypt.compare(password, user.password)) {
         return { status: true, result: user}
     }
-    else return { status: false, result: { message: 'Wrong Password' } }
+    else return { status: false, result: { message: 'Invalid Password' } }
 }
 
 const addRefreshToken = async (email, refresh) => {
@@ -37,7 +37,7 @@ const addRefreshToken = async (email, refresh) => {
         return { status: true, result: { message: 'Refresh token saved' }}
     }
     catch (e) {
-        return { status: false, result: { message: 'Something went wrong' }}
+        return { status: false, result: { message:e.message }}
     }
 }
 
@@ -47,13 +47,13 @@ const deleteRefreshToken = async (email) => {
         return { status: true, result: { message: 'Refresh token deleted' }}
     }
     catch (e) {
-        return { status: false, result: { message: 'Something went wrong' }}
+        return { status: false, result: { message: e.message }}
     }
 }
 
 const isValidRefreshToken = async (email, refresh) => {
     let user = await User.findOne({ email })
-    if (!user) return { status: false, result: { message: 'User not found' } }
+    if (!user) return { status: false, result: { message: 'InValid user' } }
     if (user.refresh === refresh) {
         return { status: true, result: { message: 'Valid Refresh' } }
     }

@@ -11,9 +11,12 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan("dev"))
 
 const authRouter = require('./routes/auth')
+const postRouter = require('./routes/post')
+const uesrFollow = require('./routes/userFollow')
 
 app.use('/users', authRouter)
-
+app.use('/posts', postRouter);
+app.use('/follow', uesrFollow)
 
 
 
